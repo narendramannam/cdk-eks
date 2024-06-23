@@ -1,0 +1,13 @@
+---
+clusterName: eks-demo
+clusterVersion: "1.30"
+region: eu-west-1
+env: development
+addons:
+  - name: coredns
+  - name: kube-proxy
+  - name: vpc-cni
+networkName: vpc-development
+controllers:
+  - name: ingress-nginx
+    env_param_path: "/platform/account/env"

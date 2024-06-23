@@ -1,15 +1,25 @@
 import aws_cdk as core
 import aws_cdk.assertions as assertions
 
-from cdk_eks.cdk_eks_stack import CdkEksStack
+from app import env, env_path
+from libs.cdk_custom_controller import CustomResourceStack
 
-# example tests. To run these tests, uncomment this file along with the example
-# resource in cdk_eks/cdk_eks_stack.py
-def test_sqs_queue_created():
+
+def test_ssm_stack():
     app = core.App()
-    stack = CdkEksStack(app, "cdk-eks")
-    template = assertions.Template.from_stack(stack)
 
-#     template.has_resource_properties("AWS::SQS::Queue", {
-#         "VisibilityTimeout": 300
-#     })
+    custom_resource_stack = CustomResourceStack(
+        app,
+        "nginx-replica-generator",
+        env_path=env_path,
+        env=env,
+    )
+
+    template = assertions.Template.from_stack(custom_resource_stack)
+
+    template.has_resource_properties("AWS::Lambda::Function", {})
+    template.resource_count_is("AWS::CloudFormation::CustomResource", 1)
+
+    template.has_output(
+        "ReplicaCount", {"Value": {"Fn::GetAtt": ["CustomResource", "ReplicaCount"]}}
+    )
