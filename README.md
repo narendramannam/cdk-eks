@@ -1,51 +1,56 @@
 
-# Welcome to your CDK Python project!
+# AWS CDK EKS project
 
-This is a blank project for CDK development with Python.
+This is a sample project for CDK development with Python to deploy EKS cluster.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Prerequisites
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+- [Node.js](https://nodejs.org/) (v14.x or later)
+- [AWS CLI](https://aws.amazon.com/cli/) (configured with your credentials)
+- [Python 3.7+](https://www.python.org/downloads/)
+- [AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html) (v2.x)
 
-To manually create a virtualenv on MacOS and Linux:
+## How to use - local development:
+1. Create and activate a virtual environment:
 
-```
+```sh
 $ python3 -m venv .venv
-```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
-```
 $ source .venv/bin/activate
 ```
+2. Install the dependencies:
 
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
-```
-
-Once the virtualenv is activated, you can install the required dependencies.
-
-```
+```sh
 $ pip install -r requirements.txt
+$ pip install -r requirements-dev.txt
+$ npm install -g aws-cdk
+$ pre-commit install
+$ pre-commit run --all-files
+```
+3. To run the tests for the custom construct:
+```sh
+$ pytest tests
 ```
 
-At this point you can now synthesize the CloudFormation template for this code.
+## How to use - deploy cluster:
+
+1. Before you start ensure that you've a VPC with atleast 2 subnets and the following environment variables are set:
+```
+$ export CDK_DEFAULT_ACCOUNT=<aws_account_id>
+$ export CDK_DEFAULT_REGION=<aws_default_region>
+```
+2. At this point you can now synthesize the CloudFormation template for this code.
 
 ```
 $ cdk synth
 ```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+3. Deploy cluster using the cdk deploy command. Grab a :coffee: and wait for cluster creation to finish and nginx controller to deploy.
+```
+$ cdk deploy --all
+```
+4. Once validated, don't forget to clean-up the stack.
+```
+$ cdk destroy --all
+```
 
 ## Useful commands
 
