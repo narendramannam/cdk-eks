@@ -10,7 +10,7 @@ This is a sample project for CDK development with Python to deploy EKS cluster.
 - [Python 3.7+](https://www.python.org/downloads/)
 - [AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html) (v2.x)
 
-## How to use - local development:
+## How to do local development:
 1. Create and activate a virtual environment:
 
 ```sh
@@ -31,7 +31,7 @@ $ pre-commit run --all-files
 $ pytest tests
 ```
 
-## How to use - deploy cluster:
+## How to deploy cluster:
 
 1. Before you start ensure that you've a VPC with atleast 2 subnets and the following environment variables are set:
 ```
